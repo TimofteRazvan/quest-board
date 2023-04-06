@@ -21,4 +21,11 @@ public class UserDTO {
     private Integer tokens;
     @NotEmpty(message = "Password must not be blank!")
     private String password;
+
+    public UserDTO(String username, String email, Integer tokens, String password) {
+        this.username = username;
+        this.email = email;
+        this.tokens = tokens;
+        this.password = password;
+    }
 }

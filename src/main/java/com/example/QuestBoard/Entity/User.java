@@ -25,7 +25,7 @@ public class User {
     private String username;
     @Column(nullable = false, unique = true)
     private String email;
-    private Integer tokens;
+    private int tokens;
     @Column(nullable = false, unique = false)
     private String password;
 
@@ -35,7 +35,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Solution> userSolutions = new ArrayList<>();
 
-    public User(String username, String email, Integer tokens, String password) {
+    public User(String username, String email, int tokens, String password) {
         this.username = username;
         this.email = email;
         this.tokens = tokens;
