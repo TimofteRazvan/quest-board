@@ -35,6 +35,14 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Solution> userSolutions = new ArrayList<>();
 
+    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name="users_roles",
+            joinColumns={@JoinColumn(name="user_id")},
+            inverseJoinColumns={@JoinColumn(name="role_id")})
+    private List<Role> roles = new ArrayList<>();
+
+
     public User(String username, String email, int tokens, String password) {
         this.username = username;
         this.email = email;

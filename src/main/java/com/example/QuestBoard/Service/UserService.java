@@ -1,12 +1,15 @@
 package com.example.QuestBoard.Service;
 
+import com.example.QuestBoard.Entity.Role;
 import com.example.QuestBoard.Entity.User;
 import com.example.QuestBoard.Entity.UserDTO;
+import com.example.QuestBoard.Repository.RoleRepository;
 import com.example.QuestBoard.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +17,9 @@ import java.util.stream.Collectors;
 public class UserService implements UserServiceInterface {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -47,9 +53,21 @@ public class UserService implements UserServiceInterface {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
-        //user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setTokens(100);
+
+        Role role = roleRepository.findByName("ROLE_ADMIN");
+        if (role == null) {
+            role = checkRole();
+        }
+        user.setRoles(Arrays.asList(role));
+
         userRepository.save(user);
+    }
+
+    private Role checkRole() {
+        Role role = new Role();
+        role.setName("ROLE_ADMIN");
+        return roleRepository.save(role);
     }
 }
