@@ -20,10 +20,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private long id;
+    private Long id;
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false, unique = true)
     private String email;
-    private int tokens;
+    private Integer tokens;
+    @Column(nullable = false, unique = false)
+    private String password;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Quest> userQuests = new ArrayList<>();
@@ -31,10 +35,11 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Solution> userSolutions = new ArrayList<>();
 
-    public User(String username, String email, int tokens) {
+    public User(String username, String email, Integer tokens, String password) {
         this.username = username;
         this.email = email;
         this.tokens = tokens;
+        this.password = password;
     }
 
     public void addQuest(Quest quest) {
@@ -62,7 +67,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id;
+        return Objects.equals(id, user.id);
     }
 
     @Override

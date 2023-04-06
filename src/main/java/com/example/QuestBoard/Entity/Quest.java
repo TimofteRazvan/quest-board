@@ -20,8 +20,10 @@ public class Quest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "quest_id")
-    private long id;
+    private Long id;
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String description;
     private int reward;
 
@@ -53,7 +55,7 @@ public class Quest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Quest quest = (Quest) o;
-        return id == quest.id;
+        return Objects.equals(id, quest.id);
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Solution {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "solution_id")
-    private long id;
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -41,7 +41,7 @@ public class Solution {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Solution solution = (Solution) o;
-        return id == solution.id;
+        return Objects.equals(id, solution.id);
     }
 
     @Override
