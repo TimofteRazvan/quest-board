@@ -10,21 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Welcome to the Guild, Adventurer!</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:insert="fragments/header :: header"></div>
 <div class="container">
     <div class="row col-md-10">
         <h2>List of Registered Adventurers</h2>
@@ -35,6 +21,7 @@
             <th>Title</th>
             <th>Email</th>
             <th>Tokens</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -42,6 +29,11 @@
             <td th:text = "${user.username}"></td>
             <td th:text = "${user.email}"></td>
             <td th:text = "${user.tokens}"></td>
+            <td>
+                <a th:href="@{/users/remove-user/{email}(email=${user.email})}" class="btn btn-danger">
+                    <i class="fas fa-user-times ml-2"></i>
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>

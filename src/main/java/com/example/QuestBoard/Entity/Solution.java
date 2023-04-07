@@ -48,4 +48,14 @@ public class Solution {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Solution{" +
+                "id=" + id +
+                ", user=" + user +
+                ", quest=" + quest +
+                ", entry='" + entry + '\'' +
+                '}';
+    }
 }

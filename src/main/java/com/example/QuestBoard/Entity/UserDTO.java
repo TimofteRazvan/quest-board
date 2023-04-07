@@ -28,4 +28,15 @@ public class UserDTO {
         this.tokens = tokens;
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", tokens=" + tokens +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

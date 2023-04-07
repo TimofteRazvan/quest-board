@@ -10,4 +10,7 @@ public interface UserServiceInterface {
     User findUserByEmail(String email);
     User findUserByUsername(String username);
     void saveUser(UserDTO userDTO);
+    void removeUserById(Long id);
+    void removeUserByUsername(String username);
+    void removeUserByEmail(String email);
 }

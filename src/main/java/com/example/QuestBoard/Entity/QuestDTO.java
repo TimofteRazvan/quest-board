@@ -17,4 +17,14 @@ public class QuestDTO {
     @NotEmpty(message = "Description must not be blank!")
     private String description;
     private int reward;
+
+    @Override
+    public String toString() {
+        return "QuestDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", reward=" + reward +
+                '}';
+    }
 }

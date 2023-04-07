@@ -62,4 +62,16 @@ public class Quest {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Quest{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", reward=" + reward +
+                ", user=" + user +
+                ", questSolutions=" + questSolutions +
+                '}';
+    }
 }

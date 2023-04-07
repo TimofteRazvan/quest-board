@@ -5,12 +5,11 @@ import com.example.QuestBoard.Entity.UserDTO;
 import com.example.QuestBoard.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -63,5 +62,22 @@ public class AuthenticateController {
         List<UserDTO> userDTOList = userService.findAllUsers();
         model.addAttribute("users", userDTOList);
         return "users";
+    }
+
+    @GetMapping("/users/remove-user/{email}")
+    public String removeUserById(@PathVariable String email, Model model) {
+        userService.removeUserByEmail(email);
+        model.addAttribute("users", userService.findAllUsers());
+        return "redirect:/users";
+    }
+
+    @GetMapping(value = "/username")
+    @ResponseBody
+    public String currentUserName(Authentication authentication) {
+
+        if (authentication != null)
+            return authentication.getName();
+        else
+            return "";
     }
 }

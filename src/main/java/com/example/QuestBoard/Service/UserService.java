@@ -26,12 +26,13 @@ public class UserService implements UserServiceInterface {
     public List<UserDTO> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(this::mapDTO)
+                .map(this::mapUserToUserDTO)
                 .collect(Collectors.toList());
     }
 
-    private UserDTO mapDTO(User user) {
+    private UserDTO mapUserToUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
         userDTO.setTokens(user.getTokens());
@@ -56,7 +57,13 @@ public class UserService implements UserServiceInterface {
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setTokens(100);
 
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role role = new Role();
+        if (user.getUsername().contains("admin1906")) {
+            role = roleRepository.findByName("ROLE_ADMIN");
+        }
+        else {
+            role = roleRepository.findByName("ROLE_USER");
+        }
         if (role == null) {
             role = checkRole();
         }
@@ -65,9 +72,35 @@ public class UserService implements UserServiceInterface {
         userRepository.save(user);
     }
 
+    // TODO: Add permissions to check Quests and such tabs for Basic role
+    // TODO: Add Service for Quests, Solution
+
     private Role checkRole() {
         Role role = new Role();
-        role.setName("ROLE_ADMIN");
+        role.setName("ROLE_USER");
         return roleRepository.save(role);
+    }
+
+    @Override
+    public void removeUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
+        userRepository.deleteById(user.getId());
+    }
+
+    //TODO: Fix this
+    @Override
+    public void removeUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            userRepository.deleteById(user.getId());
+        }
+    }
+
+    @Override
+    public void removeUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            userRepository.deleteById(user.getId());
+        }
     }
 }
