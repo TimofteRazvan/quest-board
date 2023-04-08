@@ -1,8 +1,6 @@
 package com.example.QuestBoard.Service;
 
-import com.example.QuestBoard.Entity.Role;
-import com.example.QuestBoard.Entity.User;
-import com.example.QuestBoard.Entity.UserDTO;
+import com.example.QuestBoard.Entity.*;
 import com.example.QuestBoard.Repository.RoleRepository;
 import com.example.QuestBoard.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +70,11 @@ public class UserService implements UserServiceInterface {
         userRepository.save(user);
     }
 
-    // TODO: Add permissions to check Quests and such tabs for Basic role
-    // TODO: Add Service for Quests, Solution
+    public void bindQuest(Quest quest, User user) {
+        List<Quest> quests = user.getUserQuests();
+        quests.add(quest);
+        user.setUserQuests(quests);
+    }
 
     private Role checkRole() {
         Role role = new Role();
@@ -102,5 +103,13 @@ public class UserService implements UserServiceInterface {
         if (user != null) {
             userRepository.deleteById(user.getId());
         }
+    }
+
+    public List<Quest> findQuestsByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return user.getUserQuests();
+        }
+        return null;
     }
 }

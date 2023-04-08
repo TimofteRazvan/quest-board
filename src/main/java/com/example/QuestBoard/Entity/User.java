@@ -85,15 +85,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", tokens=" + tokens +
-                ", password='" + password + '\'' +
-                ", userQuests=" + userQuests +
-                ", userSolutions=" + userSolutions +
-                ", roles=" + roles +
-                '}';
+        return username;
     }
 }

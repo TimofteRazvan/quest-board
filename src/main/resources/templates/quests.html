@@ -20,14 +20,14 @@
     <tr>
       <th>Title</th>
       <th>Reward</th>
-      <!--<th>Tokens</th>-->
+      <th>Author</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each = "quest : ${quests}">
       <td th:text = "${quest.title}"></td>
       <td th:text = "${quest.reward}"></td>
-      <!--<td th:text = "${quest.user}"></td>-->
+      <td th:text = "${quest.author}"></td>
     </tr>
     </tbody>
   </table>

@@ -1,22 +1,30 @@
 package com.example.QuestBoard.Controller;
 
+import com.example.QuestBoard.Entity.Quest;
+import com.example.QuestBoard.Entity.QuestDTO;
 import com.example.QuestBoard.Entity.User;
 import com.example.QuestBoard.Entity.UserDTO;
+import com.example.QuestBoard.Service.QuestService;
 import com.example.QuestBoard.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 public class AuthenticateController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private QuestService questService;
 
     @GetMapping("/index")
     public String home() {
@@ -71,7 +79,7 @@ public class AuthenticateController {
         return "redirect:/users";
     }
 
-    @GetMapping(value = "/username")
+    @GetMapping("/username")
     @ResponseBody
     public String currentUserName(Authentication authentication) {
 
@@ -79,5 +87,47 @@ public class AuthenticateController {
             return authentication.getName();
         else
             return "";
+    }
+
+    @GetMapping("/users/my-quests")
+    public String viewMyQuests(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        //User user = userService.findUserByUsername(username);
+        //List<Quest> quests = user.getUserQuests();
+        List<QuestDTO> quests = questService.findAllQuests().stream().filter(q -> Objects.equals(q.getAuthor(), username)).collect(Collectors.toList());
+        model.addAttribute("quests", quests);
+        return "my-quests";
+    }
+
+    @GetMapping("/users/add-quest")
+    public String addQuest(Model model) {
+        QuestDTO questDTO = new QuestDTO();
+        model.addAttribute("quest", questDTO);
+        return "add-quest";
+    }
+
+    @GetMapping("/quests")
+    public String viewAllQuests(Model model) {
+        List<QuestDTO> questDTOList = questService.findAllQuests();
+        model.addAttribute("quests", questDTOList);
+        return "quests";
+    }
+
+    @PostMapping("/users/save-quest")
+    public String saveQuest(@Valid @ModelAttribute("quest") QuestDTO questDTO, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("quest", questDTO);
+            return "add-quest";
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        User user = userService.findUserByUsername(username);
+        if (user != null) {
+            Quest quest = questService.saveQuest(questDTO, user);
+            userService.bindQuest(quest, user);
+        }
+        return "redirect:/quests";
     }
 }

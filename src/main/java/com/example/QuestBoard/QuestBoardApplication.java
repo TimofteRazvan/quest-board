@@ -10,4 +10,8 @@ public class QuestBoardApplication {
 		SpringApplication.run(QuestBoardApplication.class, args);
 	}
 
+	// TODO: Quest View Details & Delete
+	// TODO: Solution binding
+	// TODO: Proper cascading
+	// TODO: Rewards
 }

@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(email);
 
         if (user != null) {
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                     mapAuthorities(user.getRoles()));
         }
         else {

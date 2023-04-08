@@ -28,16 +28,20 @@ public class QuestService implements QuestServiceInterface {
         questDTO.setTitle(quest.getTitle());
         questDTO.setDescription(quest.getDescription());
         questDTO.setReward(quest.getReward());
+        if (quest.getUser() != null) {
+            questDTO.setAuthor(quest.getUser().getUsername());
+        }
         return questDTO;
     }
 
     @Override
-    public void saveQuest(QuestDTO questDTO, User user) {
+    public Quest saveQuest(QuestDTO questDTO, User user) {
         Quest quest = new Quest();
         quest.setTitle(questDTO.getTitle());
-        quest.setDescription(quest.getDescription());
-        quest.setReward(quest.getReward());
+        quest.setDescription(questDTO.getDescription());
+        quest.setReward(questDTO.getReward());
         quest.setUser(user);
         questRepository.save(quest);
+        return quest;
     }
 }
