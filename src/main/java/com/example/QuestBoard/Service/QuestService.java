@@ -15,6 +15,15 @@ public class QuestService implements QuestServiceInterface {
     @Autowired
     QuestRepository questRepository;
 
+    public QuestDTO findQuestById(Long id) {
+        Quest quest = questRepository.findById(id).orElseThrow(() -> new RuntimeException("Quest not found!"));
+        String username = null;
+        if (quest.getUser() != null) {
+            username = quest.getUser().getUsername();
+        }
+        return new QuestDTO(quest.getId(), quest.getTitle(), quest.getDescription(), quest.getReward(), username);
+    }
+
     @Override
     public List<QuestDTO> findAllQuests() {
         List<Quest> quests = questRepository.findAll();
@@ -25,6 +34,7 @@ public class QuestService implements QuestServiceInterface {
 
     private QuestDTO mapQuestToQuestDTO(Quest quest) {
         QuestDTO questDTO = new QuestDTO();
+        questDTO.setId(quest.getId());
         questDTO.setTitle(quest.getTitle());
         questDTO.setDescription(quest.getDescription());
         questDTO.setReward(quest.getReward());

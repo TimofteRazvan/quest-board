@@ -30,12 +30,12 @@ public class SpringSecurity {
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/users/**").permitAll()
-                                .requestMatchers("/quests").permitAll()
+                                .requestMatchers("/quests/**").permitAll()
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/users", true)
+                                .defaultSuccessUrl("/quests", true)
                                 .permitAll()
                 ).logout(
                         logout -> logout

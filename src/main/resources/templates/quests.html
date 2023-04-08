@@ -21,6 +21,7 @@
       <th>Title</th>
       <th>Reward</th>
       <th>Author</th>
+      <th>Details</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +29,11 @@
       <td th:text = "${quest.title}"></td>
       <td th:text = "${quest.reward}"></td>
       <td th:text = "${quest.author}"></td>
+      <td>
+        <a th:href="@{/quests/{id}(id=${quest.id})}" class="btn btn-primary">
+          <i class="fas fa-eye ml-2"></i>
+        </a>
+      </td>
     </tr>
     </tbody>
   </table>

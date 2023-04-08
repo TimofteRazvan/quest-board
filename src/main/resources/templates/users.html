@@ -21,7 +21,7 @@
             <th>Title</th>
             <th>Email</th>
             <th>Tokens</th>
-            <th></th>
+            <th>Remove</th>
         </tr>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@
             <td th:text = "${user.email}"></td>
             <td th:text = "${user.tokens}"></td>
             <td>
-                <a th:href="@{/users/remove-user/{email}(email=${user.email})}" class="btn btn-danger">
+                <a th:href="@{/users/remove-user/{id}(id=${user.id})}" class="btn btn-danger">
                     <i class="fas fa-user-times ml-2"></i>
                 </a>
             </td>

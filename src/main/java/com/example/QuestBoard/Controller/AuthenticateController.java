@@ -72,9 +72,9 @@ public class AuthenticateController {
         return "users";
     }
 
-    @GetMapping("/users/remove-user/{email}")
-    public String removeUserById(@PathVariable String email, Model model) {
-        userService.removeUserByEmail(email);
+    @GetMapping("/users/remove-user/{id}")
+    public String removeUserById(@PathVariable Long id, Model model) {
+        userService.removeUserById(id);
         model.addAttribute("users", userService.findAllUsers());
         return "redirect:/users";
     }
@@ -129,5 +129,12 @@ public class AuthenticateController {
             userService.bindQuest(quest, user);
         }
         return "redirect:/quests";
+    }
+
+    @GetMapping("/quests/{id}")
+    public String viewQuest(@PathVariable Long id, Model model) {
+        QuestDTO questDTO = questService.findQuestById(id);
+        model.addAttribute("quest", questDTO);
+        return "quest-details";
     }
 }
