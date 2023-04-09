@@ -30,7 +30,7 @@ public class Quest {
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Solution> questSolutions = new ArrayList<>();
 
     public Quest(String title, String description, int reward, User user) {

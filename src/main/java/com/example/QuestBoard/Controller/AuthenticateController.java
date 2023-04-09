@@ -1,10 +1,8 @@
 package com.example.QuestBoard.Controller;
 
-import com.example.QuestBoard.Entity.Quest;
-import com.example.QuestBoard.Entity.QuestDTO;
-import com.example.QuestBoard.Entity.User;
-import com.example.QuestBoard.Entity.UserDTO;
+import com.example.QuestBoard.Entity.*;
 import com.example.QuestBoard.Service.QuestService;
+import com.example.QuestBoard.Service.SolutionService;
 import com.example.QuestBoard.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,8 @@ public class AuthenticateController {
     private UserService userService;
     @Autowired
     private QuestService questService;
+    @Autowired
+    private SolutionService solutionService;
 
     @GetMapping("/index")
     public String home() {
@@ -95,7 +95,9 @@ public class AuthenticateController {
         String username = auth.getName();
         //User user = userService.findUserByUsername(username);
         //List<Quest> quests = user.getUserQuests();
-        List<QuestDTO> quests = questService.findAllQuests().stream().filter(q -> Objects.equals(q.getAuthor(), username)).collect(Collectors.toList());
+        List<QuestDTO> quests = questService.findAllQuests().stream()
+                .filter(q -> Objects.equals(q.getAuthor(), username))
+                .collect(Collectors.toList());
         model.addAttribute("quests", quests);
         return "my-quests";
     }
@@ -115,7 +117,8 @@ public class AuthenticateController {
     }
 
     @PostMapping("/users/save-quest")
-    public String saveQuest(@Valid @ModelAttribute("quest") QuestDTO questDTO, BindingResult bindingResult, Model model) {
+    public String saveQuest(@Valid @ModelAttribute("quest") QuestDTO questDTO, BindingResult bindingResult,
+                            Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("quest", questDTO);
             return "add-quest";
@@ -136,5 +139,51 @@ public class AuthenticateController {
         QuestDTO questDTO = questService.findQuestById(id);
         model.addAttribute("quest", questDTO);
         return "quest-details";
+    }
+
+    @GetMapping("/quests/{id}/add-solution")
+    public String addSolution(@PathVariable Long id, Model model) {
+        SolutionDTO solutionDTO = new SolutionDTO();
+        model.addAttribute("solution", solutionDTO);
+        model.addAttribute("quest_id", id);
+        return "add-solution";
+    }
+
+    @PostMapping("/solutions/{id}")
+    public String saveSolution(@ModelAttribute("solution") SolutionDTO solutionDTO, @PathVariable Long id,
+                               BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("solution", solutionDTO);
+            return "add-solution";
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        User user = userService.findUserByUsername(username);
+        //Quest quest = questService.findQuest(id);
+        Quest quest = questService.getQuestReference(id);
+
+        if (user != null && quest != null) {
+            Solution solution = solutionService.saveSolution(solutionDTO, quest, user);
+            quest.addSolution(solution);
+        }
+
+        return "redirect:/quests";
+    }
+
+    @GetMapping("/quests/{id}/solutions")
+    public String viewSolutions(@PathVariable Long id, Model model) {
+        List<SolutionDTO> solutionDTOList = solutionService.findAllSolutions().stream()
+                .filter(s -> Objects.equals(s.getQuest(), id))
+                .toList();
+        model.addAttribute("solutions", solutionDTOList);
+        return "solutions";
+    }
+
+    @GetMapping("/solutions")
+    public String viewAllSolutions(Model model) {
+        List<SolutionDTO> solutionDTOList = solutionService.findAllSolutions();
+        model.addAttribute("solutions", solutionDTOList);
+        return "test-solutions";
     }
 }

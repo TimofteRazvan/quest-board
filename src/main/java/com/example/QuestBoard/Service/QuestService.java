@@ -24,6 +24,14 @@ public class QuestService implements QuestServiceInterface {
         return new QuestDTO(quest.getId(), quest.getTitle(), quest.getDescription(), quest.getReward(), username);
     }
 
+    public Quest findQuest(Long id) {
+        return questRepository.findById(id).orElseThrow(() -> new RuntimeException("Quest not found!"));
+    }
+
+    public Quest getQuestReference(Long id) {
+        return questRepository.getById(id);
+    }
+
     @Override
     public List<QuestDTO> findAllQuests() {
         List<Quest> quests = questRepository.findAll();

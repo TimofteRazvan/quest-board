@@ -9,13 +9,10 @@ public class QuestBoardApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(QuestBoardApplication.class, args);
 	}
-	// TODO: Changed user delete to be deleteById. Check if it still works!!!
+	// TODO: Check user deletion!
 
-	// TODO: MIGHT BE BETTER TO MAKE SOLUTION A MANY-TO-ONE WITH QUESTS, NO RELATION TO USER
-	// TODO: INSTEAD, SOLUTION HAS "USERNAME" FIELD THAT CAN BE USED TO FIND POSTER
-
+	// TODO: Fix IDs in links so that quest ids are automatically filled
 	// TODO: Quest Delete
-	// TODO: Solution binding & Quest Solutions View
 	// TODO: Proper cascading
-	// TODO: Rewards
+	// TODO: Rewards and choosing correct solution
 }
