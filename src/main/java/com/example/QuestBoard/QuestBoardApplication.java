@@ -9,10 +9,8 @@ public class QuestBoardApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(QuestBoardApplication.class, args);
 	}
-	// TODO: Check user deletion!
 
-	// TODO: Fix IDs in links so that quest ids are automatically filled
-	// TODO: Quest Delete
-	// TODO: Proper cascading
-	// TODO: Rewards and choosing correct solution
+	// TODO: Rewards and choosing correct solution + Quest Delete
+	// TODO: Proper cascading for users & user quests
+	// TODO: Permissions
 }

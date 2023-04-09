@@ -141,7 +141,7 @@ public class AuthenticateController {
         return "quest-details";
     }
 
-    @GetMapping("/quests/{id}/add-solution")
+    @GetMapping("/quests/add-solution/{id}")
     public String addSolution(@PathVariable Long id, Model model) {
         SolutionDTO solutionDTO = new SolutionDTO();
         model.addAttribute("solution", solutionDTO);
@@ -171,7 +171,7 @@ public class AuthenticateController {
         return "redirect:/quests";
     }
 
-    @GetMapping("/quests/{id}/solutions")
+    @GetMapping("/quests/solutions/{id}")
     public String viewSolutions(@PathVariable Long id, Model model) {
         List<SolutionDTO> solutionDTOList = solutionService.findAllSolutions().stream()
                 .filter(s -> Objects.equals(s.getQuest(), id))

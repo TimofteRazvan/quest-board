@@ -36,7 +36,7 @@
               <td th:text="${quest.author}"></td>
             </tr>
           </table>
-          <a th:href="@{/quests/5/add-solution}">Add Solution</a>
+          <a th:href="@{/quests/add-solution/{id}(id=${quest.id})}">Add Solution</a>
         </div>
       </div>
     </div>
