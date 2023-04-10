@@ -197,10 +197,22 @@ public class AuthenticateController {
     }
 
     @GetMapping("/quests/accept-solution/{id}")
-    public String acceptSolution(@PathVariable Long id, Model model) {
+    public String acceptSolution(@PathVariable Long id) {
         Solution solution = solutionService.findSolutionById(id);
         Quest quest = solution.getQuest();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        userService.takeReward(username, quest.getReward());
         userService.giveReward(solution.getUser(), quest.getReward());
+        solutionService.removeSolutionById(id);
+        questService.removeQuestById(quest.getId());
         return "redirect:/users/my-quests";
+    }
+
+    @GetMapping("/leaderboard")
+    public String viewLeaderboard(Model model) {
+        List<UserDTO> userDTOList = userService.findAllUsersByTokensDescending();
+        model.addAttribute("users", userDTOList);
+        return "leaderboard";
     }
 }

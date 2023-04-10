@@ -27,7 +27,7 @@ public class Quest {
     private String description;
     private int reward;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

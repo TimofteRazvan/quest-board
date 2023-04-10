@@ -62,4 +62,8 @@ public class QuestService implements QuestServiceInterface {
         questRepository.save(quest);
         return quest;
     }
+
+    public void removeQuestById(Long id) {
+        questRepository.deleteById(id);
+    }
 }

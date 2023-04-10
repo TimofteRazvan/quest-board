@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,22 @@ public class UserService implements UserServiceInterface {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(this::mapUserToUserDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDTO> findAllUsersByTokensAscending() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(this::mapUserToUserDTO)
+                .sorted(Comparator.comparingInt(UserDTO::getTokens))
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDTO> findAllUsersByTokensDescending() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(this::mapUserToUserDTO)
+                .sorted(Comparator.comparingInt(UserDTO::getTokens).reversed())
                 .collect(Collectors.toList());
     }
 
@@ -116,5 +133,13 @@ public class UserService implements UserServiceInterface {
     public void giveReward(User user, int tokens) {
         user.setTokens(user.getTokens() + tokens);
         userRepository.save(user);
+    }
+
+    public void takeReward(String username, int tokens) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            user.setTokens(user.getTokens() - tokens);
+            userRepository.save(user);
+        }
     }
 }

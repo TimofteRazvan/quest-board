@@ -25,6 +25,9 @@
           <!--@GetMapping("/users/{username}/my-quests")      "@{/hello/{id}/(id=${#authentication.getName()})}"-->
           <a class="nav-link active" aria-current="page" th:href="@{/users/my-quests}">My Quests</a>
         </li>
+        <li>
+          <a class="nav-link active" aria-current="page" th:href="@{/leaderboard}">Leaderboard</a>
+        </li>
       </ul>
       <div sec:authorize="isAuthenticated()">
         <span class="text-light" sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>

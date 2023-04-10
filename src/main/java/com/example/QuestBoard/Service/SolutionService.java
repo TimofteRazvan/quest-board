@@ -44,4 +44,12 @@ public class SolutionService implements SolutionServiceInterface {
         solutionRepository.save(solution);
         return solution;
     }
+
+    public void removeSolutionById(Long id) {
+        solutionRepository.deleteById(id);
+    }
+
+    public void removeSolution(Solution solution) {
+        solutionRepository.delete(solution);
+    }
 }

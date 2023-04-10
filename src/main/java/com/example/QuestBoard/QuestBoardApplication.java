@@ -10,7 +10,6 @@ public class QuestBoardApplication {
 		SpringApplication.run(QuestBoardApplication.class, args);
 	}
 
-	// TODO: Quest Delete after reward given
-	// TODO: Proper cascading for users & user quests
+	// TODO: Badges
 	// TODO: Permissions, add admin role on specific conditions, can delete others' quests, users
 }
