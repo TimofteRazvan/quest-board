@@ -27,13 +27,14 @@
     <tbody>
     <tr th:each = "solution : ${solutions}">
       <td th:text = "${solution.entry}"></td>
-      <td> <input type="radio" id="${solution.id}" name="correct" value="solution"> </td>
+      <td>
+        <a th:href="@{/quests/accept-solution/{id}(id=${solution.id})}" class="btn btn-primary">
+          <i class="fas fa-check"></i>
+        </a>
+      </td>
     </tr>
     </tbody>
   </table>
-  <!--
-  <a th:href="@{/quests/accept-solution/{id}(id=${solution.id})}" class="btn btn-primary"></a>
-  -->
   <!--OR-->
   <!--<input type="submit" class="btn btn-success btn-lg">Confirm</input>-->
   <!--</form>>-->

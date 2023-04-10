@@ -28,10 +28,13 @@
       </ul>
       <div sec:authorize="isAuthenticated()">
         <span class="text-light" sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
-        <span class="text-light" sec:authentication="name">User</span>
+        <a th:href="@{/user}"><span class="text-light" sec:authentication="name">User</span></a>
       </div>
       <div>
         <a class="nav-link active text-light" th:href="@{/register}">Register</a>
+      </div>
+      <div>
+        <a class="nav-link active text-light" th:href="@{/logout}">Log out</a>
       </div>
     </div>
   </div>

@@ -112,4 +112,9 @@ public class UserService implements UserServiceInterface {
         }
         return null;
     }
+
+    public void giveReward(User user, int tokens) {
+        user.setTokens(user.getTokens() + tokens);
+        userRepository.save(user);
+    }
 }

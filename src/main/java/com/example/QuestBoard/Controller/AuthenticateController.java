@@ -72,6 +72,15 @@ public class AuthenticateController {
         return "users";
     }
 
+    @GetMapping("/user")
+    public String seeCurrentUser(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        User user = userService.findUserByUsername(username);
+        model.addAttribute("user", user);
+        return "user";
+    }
+
     @GetMapping("/users/remove-user/{id}")
     public String removeUserById(@PathVariable Long id, Model model) {
         userService.removeUserById(id);
@@ -185,5 +194,13 @@ public class AuthenticateController {
         List<SolutionDTO> solutionDTOList = solutionService.findAllSolutions();
         model.addAttribute("solutions", solutionDTOList);
         return "solutions";
+    }
+
+    @GetMapping("/quests/accept-solution/{id}")
+    public String acceptSolution(@PathVariable Long id, Model model) {
+        Solution solution = solutionService.findSolutionById(id);
+        Quest quest = solution.getQuest();
+        userService.giveReward(solution.getUser(), quest.getReward());
+        return "redirect:/users/my-quests";
     }
 }
