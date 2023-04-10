@@ -12,21 +12,31 @@
 <body>
 <div th:insert="fragments/header :: header"></div>
 <div class="container">
-  <div class="row col-md-10">
-    <h2>List of Published Quests</h2>
+  <div class="row col-md-10 d-inline">
+    <h2>Attached Solutions</h2>
   </div>
+  <!--<form>-->
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
     <tr>
       <th>Entry</th>
+      <th>Correct</th>
+      <!--<th>Tokens</th>-->
     </tr>
     </thead>
     <tbody>
     <tr th:each = "solution : ${solutions}">
       <td th:text = "${solution.entry}"></td>
+      <td> <input type="radio" id="${solution.id}" name="correct" value="solution"> </td>
     </tr>
     </tbody>
   </table>
+  <!--
+  <a th:href="@{/quests/accept-solution/{id}(id=${solution.id})}" class="btn btn-primary"></a>
+  -->
+  <!--OR-->
+  <!--<input type="submit" class="btn btn-success btn-lg">Confirm</input>-->
+  <!--</form>>-->
 </div>
 </body>
 </html>

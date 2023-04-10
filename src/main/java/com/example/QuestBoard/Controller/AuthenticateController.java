@@ -177,13 +177,13 @@ public class AuthenticateController {
                 .filter(s -> Objects.equals(s.getQuest(), id))
                 .toList();
         model.addAttribute("solutions", solutionDTOList);
-        return "solutions";
+        return "quest-solutions";
     }
 
     @GetMapping("/solutions")
     public String viewAllSolutions(Model model) {
         List<SolutionDTO> solutionDTOList = solutionService.findAllSolutions();
         model.addAttribute("solutions", solutionDTOList);
-        return "test-solutions";
+        return "solutions";
     }
 }
