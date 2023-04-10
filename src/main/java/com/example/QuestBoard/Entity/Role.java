@@ -17,12 +17,17 @@ import java.util.List;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name = "role_id")
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
+
+    public Role(String name) {
+        this.name = name;
+    }
 
     public void addUser(User user) {
         users.add(user);

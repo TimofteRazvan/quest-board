@@ -1,6 +1,7 @@
 package com.example.QuestBoard.Controller;
 
 import com.example.QuestBoard.Entity.*;
+import com.example.QuestBoard.Service.BadgeService;
 import com.example.QuestBoard.Service.QuestService;
 import com.example.QuestBoard.Service.SolutionService;
 import com.example.QuestBoard.Service.UserService;
@@ -25,6 +26,8 @@ public class AuthenticateController {
     private QuestService questService;
     @Autowired
     private SolutionService solutionService;
+    @Autowired
+    private BadgeService badgeService;
 
     @GetMapping("/index")
     public String home() {
@@ -78,7 +81,7 @@ public class AuthenticateController {
         String username = auth.getName();
         User user = userService.findUserByUsername(username);
         model.addAttribute("user", user);
-        return "user";
+        return "user-details";
     }
 
     @GetMapping("/users/remove-user/{id}")
@@ -227,4 +230,39 @@ public class AuthenticateController {
         model.addAttribute("users", userDTOList);
         return "leaderboard";
     }
+
+    @GetMapping("/badges")
+    public String viewBadges(Model model) {
+        List<BadgeDTO> badgeDTOList = badgeService.findAllBadges();
+        model.addAttribute("badges", badgeDTOList);
+        return "badges";
+    }
+
+    @GetMapping("/badges/add-badge")
+    public String addBadge(Model model) {
+        BadgeDTO badgeDTO = new BadgeDTO();
+        model.addAttribute("badge", badgeDTO);
+        return "add-badge";
+    }
+
+    @PostMapping("/badges/save-badge")
+    public String saveBadge(@Valid @ModelAttribute("badge") BadgeDTO badgeDTO, BindingResult bindingResult,
+                            Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("badge", badgeDTO);
+            return "add-badge";
+        }
+        badgeService.saveBadge(badgeDTO);
+        return "redirect:/badges";
+    }
+
+    @GetMapping("/users/user-admin-details/{id}")
+    public String viewUserDetails(@PathVariable Long id, Model model) {
+        User user = userService.findUserById(id);
+        model.addAttribute("user", user);
+        return "user-admin-details";
+    }
+
+    // TODO: Give badge function
+    // TODO: Badge events
 }

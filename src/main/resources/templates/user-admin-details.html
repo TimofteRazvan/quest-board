@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<div class="container my-2">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Adventurer Card</h2>
+        </div>
+        <div class="card-body">
+            <div th:switch="${user}" class="container my-5">
+                <div class="col-md-12">
+                    <h3 class="text-center">Overview</h3>
+                    <table class="table table-striped table-responsive-md">
+                        <tr>
+                            <td>Adventurer Title</td>
+                            <td th:text="${user.username}"></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td th:text="${user.email}"></td>
+                        </tr>
+                        <tr>
+                            <td>Tokens</td>
+                            <td th:text="${user.tokens}"></td>
+                        </tr>
+                    </table>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-dark">
+                        <h3 class="text-center">Roles</h3>
+                        <tr>
+                            <th>#</th>
+                            <th>Role Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each = "role, iStat : ${user.roles}">
+                            <td th:text = "${iStat.index + 1}"></td>
+                            <td th:text = "${role.name}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-dark">
+                        <h3 class="text-center">Quests</h3>
+                        <tr>
+                            <th>#</th>
+                            <th>Quest Title</th>
+                            <th>Quest Description</th>
+                            <th>Quest Reward</th>
+                            <th>Details</th>
+                            <th>Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each = "quest, iStat : ${user.userQuests}">
+                            <td th:text = "${iStat.index + 1}"></td>
+                            <td th:text = "${quest.title}"></td>
+                            <td th:text = "${quest.description}"></td>
+                            <td th:text = "${quest.reward}"></td>
+                            <td>
+                                <a th:href="@{/quests/{id}(id=${quest.id})}" class="btn btn-primary">
+                                    <i class="fas fa-eye ml-2"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a th:href="@{/quests/remove-quest/{id}(id=${quest.id})}" class="btn btn-danger">
+                                    <i class="fas fa-user-times ml-2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-dark">
+                        <h3 class="text-center">Solutions</h3>
+                        <tr>
+                            <th>#</th>
+                            <th>Solution Entry</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each = "solution, iStat : ${user.userSolutions}">
+                            <td th:text = "${iStat.index + 1}"></td>
+                            <td th:text = "${solution.entry}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-dark">
+                        <h3 class="text-center">Badges</h3>
+                        <tr>
+                            <th>#</th>
+                            <th>Badge Name</th>
+                            <th>Badge Description</th>
+                            <th>Badge Reward</th>
+                            <!--<th>Details</th>-->
+                            <!--<th>Remove</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each = "badge, iStat : ${user.badges}">
+                            <td th:text = "${iStat.index + 1}"></td>
+                            <td th:text = "${badge.name}"></td>
+                            <td th:text = "${quest.description}"></td>
+                            <td th:text = "${badge.reward}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

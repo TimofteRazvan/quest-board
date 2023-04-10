@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "User")
 @Table(name = "users")
@@ -42,6 +43,12 @@ public class User {
             inverseJoinColumns=@JoinColumn(name="role_id"))
     private List<Role> roles = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(name = "users_badges",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "badge_id"))
+    private List<Badge> badges = new ArrayList<>();
+
 
     public User(String username, String email, int tokens, String password) {
         this.username = username;
@@ -70,12 +77,20 @@ public class User {
         solution.setUser(null);
     }
 
-    public void addRoles(Role role) {
+    public void addRole(Role role) {
         roles.add(role);
     }
 
-    public void removeRoles(Role role) {
+    public void removeRole(Role role) {
         roles.remove(role);
+    }
+
+    public void addBadge(Badge badge) {
+        badges.add(badge);
+    }
+
+    public void removeBadge(Badge badge) {
+        badges.remove(badge);
     }
 
     @Override
