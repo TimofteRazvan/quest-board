@@ -82,16 +82,28 @@ public class AuthenticateController {
     }
 
     @GetMapping("/users/remove-user/{id}")
-    public String removeUserById(@PathVariable Long id, Model model) {
+    public String removeUser(@PathVariable Long id, Model model) {
+        solutionService.removeSolutionsOfUser(id);
+        questService.removeQuestsOfUser(id);
         userService.removeUserById(id);
         model.addAttribute("users", userService.findAllUsers());
         return "redirect:/users";
     }
 
+    @GetMapping("/quests/remove-quest/{id}")
+    public String removeQuest(@PathVariable Long id, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUsername(auth.getName());
+        Quest quest = questService.findQuestById(id);
+        userService.giveReward(user, quest.getReward());
+        questService.removeQuestById(id);
+        model.addAttribute("quests", questService.findAllQuests());
+        return "redirect:/users/my-quests";
+    }
+
     @GetMapping("/username")
     @ResponseBody
     public String currentUserName(Authentication authentication) {
-
         if (authentication != null)
             return authentication.getName();
         else
@@ -136,16 +148,16 @@ public class AuthenticateController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         User user = userService.findUserByUsername(username);
-        if (user != null) {
-            Quest quest = questService.saveQuest(questDTO, user);
-            userService.bindQuest(quest, user);
+        if (user != null && user.getTokens() > questDTO.getReward()) {
+            userService.takeReward(username, questDTO.getReward());
+            questService.saveQuest(questDTO, user);
         }
         return "redirect:/quests";
     }
 
     @GetMapping("/quests/{id}")
     public String viewQuest(@PathVariable Long id, Model model) {
-        QuestDTO questDTO = questService.findQuestById(id);
+        QuestDTO questDTO = questService.findQuestDTOById(id);
         model.addAttribute("quest", questDTO);
         return "quest-details";
     }
@@ -202,7 +214,7 @@ public class AuthenticateController {
         Quest quest = solution.getQuest();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        userService.takeReward(username, quest.getReward());
+        //userService.takeReward(username, quest.getReward());
         userService.giveReward(solution.getUser(), quest.getReward());
         solutionService.removeSolutionById(id);
         questService.removeQuestById(quest.getId());

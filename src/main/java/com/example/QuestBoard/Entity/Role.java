@@ -24,12 +24,19 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
+    }
+
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", users=" + users +
+                ", name='" + name +
                 '}';
     }
 }

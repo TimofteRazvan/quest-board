@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,7 +16,7 @@ public class QuestService implements QuestServiceInterface {
     @Autowired
     QuestRepository questRepository;
 
-    public QuestDTO findQuestById(Long id) {
+    public QuestDTO findQuestDTOById(Long id) {
         Quest quest = questRepository.findById(id).orElseThrow(() -> new RuntimeException("Quest not found!"));
         String username = null;
         if (quest.getUser() != null) {
@@ -24,7 +25,7 @@ public class QuestService implements QuestServiceInterface {
         return new QuestDTO(quest.getId(), quest.getTitle(), quest.getDescription(), quest.getReward(), username);
     }
 
-    public Quest findQuest(Long id) {
+    public Quest findQuestById(Long id) {
         return questRepository.findById(id).orElseThrow(() -> new RuntimeException("Quest not found!"));
     }
 
@@ -64,6 +65,16 @@ public class QuestService implements QuestServiceInterface {
     }
 
     public void removeQuestById(Long id) {
-        questRepository.deleteById(id);
+        Quest quest = questRepository.findById(id).orElseThrow(() -> new RuntimeException("Quest not found!"));
+        questRepository.deleteById(quest.getId());
+    }
+
+    public void removeQuestsOfUser(Long id) {
+        List<Quest> quests = questRepository.findAll();
+        for (Quest quest : quests) {
+            if (quest.getUser() != null && Objects.equals(quest.getUser().getId(), id)) {
+                questRepository.deleteById(quest.getId());
+            }
+        }
     }
 }

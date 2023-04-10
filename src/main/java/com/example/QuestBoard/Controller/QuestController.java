@@ -18,6 +18,9 @@ import java.util.List;
 
 @Controller
 public class QuestController {
+    /*
     @Autowired
     QuestService questService;
+
+     */
 }

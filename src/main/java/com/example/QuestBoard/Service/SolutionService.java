@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,5 +52,14 @@ public class SolutionService implements SolutionServiceInterface {
 
     public void removeSolution(Solution solution) {
         solutionRepository.delete(solution);
+    }
+
+    public void removeSolutionsOfUser(Long id) {
+        List<Solution> solutions = solutionRepository.findAll();
+        for (Solution solution : solutions) {
+            if (solution.getUser() != null && Objects.equals(id, solution.getUser().getId())) {
+                solutionRepository.deleteById(solution.getId());
+            }
+        }
     }
 }

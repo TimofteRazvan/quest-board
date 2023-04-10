@@ -11,6 +11,4 @@ public interface UserServiceInterface {
     User findUserByUsername(String username);
     void saveUser(UserDTO userDTO);
     void removeUserById(Long id);
-    void removeUserByUsername(String username);
-    void removeUserByEmail(String email);
 }

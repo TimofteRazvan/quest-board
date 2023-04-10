@@ -21,6 +21,10 @@ public class UserService implements UserServiceInterface {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("No such user!"));
+    }
+
     @Override
     public List<UserDTO> findAllUsers() {
         List<User> users = userRepository.findAll();
@@ -82,7 +86,7 @@ public class UserService implements UserServiceInterface {
         if (role == null) {
             role = checkRole();
         }
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(List.of(role));
 
         userRepository.save(user);
     }
@@ -103,23 +107,6 @@ public class UserService implements UserServiceInterface {
     public void removeUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
         userRepository.deleteById(user.getId());
-    }
-
-    //TODO: Fix this
-    @Override
-    public void removeUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
-            userRepository.deleteById(user.getId());
-        }
-    }
-
-    @Override
-    public void removeUserByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            userRepository.deleteById(user.getId());
-        }
     }
 
     public List<Quest> findQuestsByUsername(String username) {

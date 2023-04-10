@@ -3,6 +3,7 @@ package com.example.QuestBoard.Security;
 import com.example.QuestBoard.Entity.Role;
 import com.example.QuestBoard.Entity.User;
 import com.example.QuestBoard.Repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;

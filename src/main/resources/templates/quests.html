@@ -22,6 +22,7 @@
       <th>Reward</th>
       <th>Author</th>
       <th>Details</th>
+      <th>Remove</th>
     </tr>
     </thead>
     <tbody>
@@ -32,6 +33,11 @@
       <td>
         <a th:href="@{/quests/{id}(id=${quest.id})}" class="btn btn-primary">
           <i class="fas fa-eye ml-2"></i>
+        </a>
+      </td>
+      <td>
+        <a th:href="@{/quests/remove-quest/{id}(id=${quest.id})}" class="btn btn-danger">
+          <i class="fas fa-user-times ml-2"></i>
         </a>
       </td>
     </tr>

@@ -29,17 +29,17 @@ public class User {
     @Column(nullable = false, unique = false)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private List<Quest> userQuests = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private List<Solution> userSolutions = new ArrayList<>();
 
-    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name="users_roles",
-            joinColumns={@JoinColumn(name="user_id")},
-            inverseJoinColumns={@JoinColumn(name="role_id")})
+            joinColumns=@JoinColumn(name="user_id"),
+            inverseJoinColumns=@JoinColumn(name="role_id"))
     private List<Role> roles = new ArrayList<>();
 
 
@@ -68,6 +68,14 @@ public class User {
     public void removeSolution(Solution solution) {
         this.userSolutions.remove(solution);
         solution.setUser(null);
+    }
+
+    public void addRoles(Role role) {
+        roles.add(role);
+    }
+
+    public void removeRoles(Role role) {
+        roles.remove(role);
     }
 
     @Override

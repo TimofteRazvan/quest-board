@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +29,11 @@ public class Quest {
     private String description;
     private int reward;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "quest")
     private List<Solution> questSolutions = new ArrayList<>();
 
     public Quest(String title, String description, int reward, User user) {
@@ -41,12 +44,12 @@ public class Quest {
     }
 
     public void addSolution(Solution solution) {
-        this.questSolutions.add(solution);
+        questSolutions.add(solution);
         solution.setQuest(this);
     }
 
     public void removeSolution(Solution solution) {
-        this.questSolutions.remove(solution);
+        questSolutions.remove(solution);
         solution.setQuest(null);
     }
 
