@@ -3,5 +3,5 @@ A Questing gamification application made for Accessa's internship technical asse
 
 <h1 id="1-this-is-my-header">DOCUMENTATION</h1>
 
-[https://github.com/TimofteRazvan/quest-board/tree/master/AccesaDocumentation](#1-this-is-my-header)
+[#1-this-is-my-header](https://github.com/TimofteRazvan/quest-board/tree/master/AccesaDocumentation)
 
