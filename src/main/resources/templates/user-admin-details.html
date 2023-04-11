@@ -80,7 +80,7 @@
                         <tbody>
                         <tr th:each = "solution, iStat : ${user.userSolutions}">
                             <td th:text = "${iStat.index + 1}"></td>
-                            <td th:text = "${solution.entry}"></td>
+                            <td th:text = "${#strings.abbreviate(solution.entry,150)} "></td>
                         </tr>
                         </tbody>
                     </table>
@@ -100,7 +100,7 @@
                         <tr th:each = "badge, iStat : ${user.badges}">
                             <td th:text = "${iStat.index + 1}"></td>
                             <td th:text = "${badge.name}"></td>
-                            <td th:text = "${quest.description}"></td>
+                            <td th:text = "${badge.description}"></td>
                             <td th:text = "${badge.reward}"></td>
                         </tr>
                         </tbody>

@@ -151,7 +151,7 @@ public class AuthenticateController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         User user = userService.findUserByUsername(username);
-        if (user != null && user.getTokens() > questDTO.getReward()) {
+        if (user != null && user.getTokens() >= questDTO.getReward()) {
             userService.takeReward(username, questDTO.getReward());
             questService.saveQuest(questDTO, user);
         }
@@ -259,6 +259,13 @@ public class AuthenticateController {
             return "add-badge";
         }
         badgeService.saveBadge(badgeDTO);
+        return "redirect:/badges";
+    }
+
+    @GetMapping("/badges/remove-badge/{id}")
+    public String removeBadge(@PathVariable Long id, Model model) {
+        badgeService.removeBadge(id);
+        model.addAttribute("badges", badgeService.findAllBadges());
         return "redirect:/badges";
     }
 

@@ -29,13 +29,13 @@
           <a class="nav-link active" aria-current="page" th:href="@{/leaderboard}">Leaderboard</a>
         </li>
         <li>
-          <a class="nav-link active" aria-current="page" th:href="@{/badges}">Badges</a>
+          <a class="nav-link active" aria-current="page" th:href="@{/badges}" sec:authorize="hasRole('ROLE_ADMIN')">[*] Badges</a>
         </li>
         <li>
           <a class="nav-link active" aria-current="page" th:href="@{/users}" sec:authorize="hasRole('ROLE_ADMIN')">[*] Users</a>
         </li>
         <li>
-          <a class="nav-link active" aria-current="page" th:href="@{/solution}" sec:authorize="hasRole('ROLE_ADMIN')">[*] Solutions</a>
+          <a class="nav-link active" aria-current="page" th:href="@{/solutions}" sec:authorize="hasRole('ROLE_ADMIN')">[*] Solutions</a>
         </li>
       </ul>
       <div sec:authorize="isAuthenticated()">

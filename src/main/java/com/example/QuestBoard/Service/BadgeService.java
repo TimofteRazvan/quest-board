@@ -39,4 +39,9 @@ public class BadgeService implements BadgeServiceInterface {
         badge.setReward(badgeDTO.getReward());
         badgeRepository.save(badge);
     }
+
+    public void removeBadge(Long id) {
+        Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("No such badge!"));
+        badgeRepository.deleteById(badge.getId());
+    }
 }

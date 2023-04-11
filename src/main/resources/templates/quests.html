@@ -18,6 +18,7 @@
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
     <tr>
+      <th sec:authorize="hasRole('ROLE_ADMIN')">ID</th>
       <th>Title</th>
       <th>Reward</th>
       <th>Author</th>
@@ -27,6 +28,7 @@
     </thead>
     <tbody>
     <tr th:each = "quest : ${quests}">
+      <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${quest.id}"></td>
       <td th:text = "${quest.title}"></td>
       <td th:text = "${quest.reward}"></td>
       <td th:text = "${quest.author}"></td>

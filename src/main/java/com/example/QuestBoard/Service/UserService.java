@@ -1,6 +1,7 @@
 package com.example.QuestBoard.Service;
 
 import com.example.QuestBoard.Entity.*;
+import com.example.QuestBoard.Repository.BadgeRepository;
 import com.example.QuestBoard.Repository.RoleRepository;
 import com.example.QuestBoard.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +20,8 @@ public class UserService implements UserServiceInterface {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private BadgeRepository badgeRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -74,7 +78,7 @@ public class UserService implements UserServiceInterface {
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setTokens(100);
+        user.setTokens(0);
 
         Role role = new Role();
         String role_name;
@@ -91,20 +95,62 @@ public class UserService implements UserServiceInterface {
         }
         user.setRoles(List.of(role));
 
+        Badge badge = new Badge();
+        String badge_name = "Registered";
+        badge = badgeRepository.findByName(badge_name);
+        if (badge == null) {
+            badge = checkBadge(badge_name);
+        }
+        user.addBadge(badge);
+        giveReward(user, badge.getReward());
         userRepository.save(user);
     }
-
-    /*
-    public void bindQuest(Quest quest, User user) {
-        List<Quest> quests = user.getUserQuests();
-        quests.add(quest);
-        user.setUserQuests(quests);
-    }
-     */
 
     private Role checkRole(String role_name) {
         Role role = new Role(role_name);
         return roleRepository.save(role);
+    }
+
+    private Badge checkBadge(String badge_name) {
+        Badge badge = new Badge();
+        badge.setName(badge_name);
+        if (Objects.equals(badge_name, "Registered")) {
+            badge.setDescription("Earned for successfully registering as an adventurer.");
+            badge.setReward(100);
+        }
+        else if (Objects.equals(badge_name, "Newbie")) {
+            badge.setDescription("Earned for possessing over 250 tokens at any point in time.");
+            badge.setReward(25);
+        }
+        else if (Objects.equals(badge_name, "Apprentice")) {
+            badge.setDescription("Earned for possessing over 500 tokens at any point in time.");
+            badge.setReward(50);
+        }
+        else if (Objects.equals(badge_name, "Specialist")) {
+            badge.setDescription("Earned for possessing over 1000 tokens at any point in time.");
+            badge.setReward(100);
+        }
+        else if (Objects.equals(badge_name, "Expert")) {
+            badge.setDescription("Earned for possessing over 2500 tokens at any point in time.");
+            badge.setReward(250);
+        }
+        else if (Objects.equals(badge_name, "Master")) {
+            badge.setDescription("Earned for possessing over 5000 tokens at any point in time.");
+            badge.setReward(500);
+        }
+        else if (Objects.equals(badge_name, "Godlike")) {
+            badge.setDescription("Earned for possessing over 10000 tokens at any point in time.");
+            badge.setReward(50);
+        }
+        else if (Objects.equals(badge_name, "Quid Pro Nothing")) {
+            badge.setDescription("Earned for reaching 0 tokens. Maybe try solving some quests?");
+            badge.setReward(25);
+        }
+        else if (Objects.equals(badge_name, "Bug, Destroyer of Apps")) {
+            badge.setDescription("Earned for somehow having negative tokens. Go... you?");
+            badge.setReward(1);
+        }
+        return badgeRepository.save(badge);
     }
 
     @Override
@@ -123,13 +169,58 @@ public class UserService implements UserServiceInterface {
 
     public void giveReward(User user, int tokens) {
         user.setTokens(user.getTokens() + tokens);
-        userRepository.save(user);
+        if (user.getTokens() >= 250) {
+            int userTokens = user.getTokens();
+            String badge_name = "Newbie";
+            if (userTokens >= 10000) {
+                badge_name = "Godlike";
+            }
+            else if (userTokens >= 5000) {
+                badge_name = "Master";
+            }
+            else if (userTokens >= 2500) {
+                badge_name = "Expert";
+            }
+            else if (userTokens >= 1000) {
+                badge_name = "Specialist";
+            }
+            else if (userTokens >= 500) {
+                badge_name = "Apprentice";
+            }
+            Badge badge = new Badge();
+            badge = badgeRepository.findByName(badge_name);
+            if (badge == null) {
+                badge = checkBadge(badge_name);
+            }
+            if (!user.getBadges().contains(badge)) {
+                user.addBadge(badge);
+                user.setTokens(userTokens + badge.getReward());
+                userRepository.save(user);
+            }
+        }
     }
 
     public void takeReward(String username, int tokens) {
         User user = userRepository.findByUsername(username);
         if (user != null) {
             user.setTokens(user.getTokens() - tokens);
+            if (user.getTokens() <= 0) {
+                Badge badge = new Badge();
+                String badge_name = null;
+                if (user.getTokens() < 0) {
+                    badge_name = "Bug, Destroyer of Worlds";
+                }
+                else if (user.getTokens() == 0) {
+                    badge_name = "Quid Pro Nothing";
+                }
+                badge = badgeRepository.findByName(badge_name);
+                if (badge == null) {
+                    badge = checkBadge(badge_name);
+                }
+                user.addBadge(badge);
+                giveReward(user, badge.getReward());
+            }
+
             userRepository.save(user);
         }
     }

@@ -9,6 +9,4 @@ public class QuestBoardApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(QuestBoardApplication.class, args);
 	}
-
-	// TODO: Badges
 }

@@ -18,12 +18,14 @@
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
     <tr>
+      <th>ID</th>
       <th>Entry</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each = "solution : ${solutions}">
-      <td th:text = "${solution.entry}"></td>
+      <td th:text="${solution.id}"></td>
+      <td th:text = "${#strings.abbreviate(solution.entry,300)} "></td>
     </tr>
     </tbody>
   </table>

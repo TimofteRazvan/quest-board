@@ -21,18 +21,20 @@
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
     <tr>
+      <th>ID</th>
       <th>Name</th>
       <th>Description</th>
       <th>Reward</th>
-      <th sec:authorize="hasRole('ROLE_ADMIN')">Remove</th>
+      <th>Remove</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each = "badge : ${badges}">
+      <td th:text="${badge.id}"></td>
       <td th:text = "${badge.name}"></td>
       <td th:text = "${badge.description}"></td>
       <td th:text = "${badge.reward}"></td>
-      <td sec:authorize="hasRole('ROLE_ADMIN')">
+      <td>
         <a th:href="@{/badges/remove-badge/{id}(id=${badge.id})}" class="btn btn-danger">
           <i class="fas fa-user-times ml-2"></i>
         </a>

@@ -38,9 +38,7 @@ public class SpringSecurity {
                                 .requestMatchers("/solutions/**").authenticated()
                                 .requestMatchers("/leaderboard/**").authenticated()
                                 .requestMatchers("/user/**").authenticated()
-                                .requestMatchers("/badges").authenticated()
-                                .requestMatchers("/badges/add-badge/**").hasRole("ADMIN")
-                                .requestMatchers("/badges/save-badge/**").hasRole("ADMIN")
+                                .requestMatchers("/badges/**").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

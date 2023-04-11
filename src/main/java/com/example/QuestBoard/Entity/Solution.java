@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.util.Objects;
 
+import static org.hibernate.Length.LOB_DEFAULT;
+
 @Entity(name = "Solution")
 @Table(name = "solutions")
 @Getter
@@ -27,7 +29,7 @@ public class Solution {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quest_id")
     private Quest quest;
-
+    @Column(length = LOB_DEFAULT)
     private String entry;
 
     public Solution(User user, Quest quest, String entry) {
