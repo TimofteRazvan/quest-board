@@ -23,14 +23,23 @@
         </li>
         <li>
           <!--@GetMapping("/users/{username}/my-quests")      "@{/hello/{id}/(id=${#authentication.getName()})}"-->
-          <a class="nav-link active" aria-current="page" th:href="@{/users/my-quests}">My Quests</a>
+          <a class="nav-link active" aria-current="page" th:href="@{/quests/my-quests}">My Quests</a>
         </li>
         <li>
           <a class="nav-link active" aria-current="page" th:href="@{/leaderboard}">Leaderboard</a>
         </li>
+        <li>
+          <a class="nav-link active" aria-current="page" th:href="@{/badges}">Badges</a>
+        </li>
+        <li>
+          <a class="nav-link active" aria-current="page" th:href="@{/users}" sec:authorize="hasRole('ROLE_ADMIN')">[*] Users</a>
+        </li>
+        <li>
+          <a class="nav-link active" aria-current="page" th:href="@{/solution}" sec:authorize="hasRole('ROLE_ADMIN')">[*] Solutions</a>
+        </li>
       </ul>
       <div sec:authorize="isAuthenticated()">
-        <span class="text-light" sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+        <span class="text-light" sec:authorize="hasRole('ROLE_ADMIN')" sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
         <a th:href="@{/user}"><span class="text-light" sec:authentication="name">User</span></a>
       </div>
       <div>

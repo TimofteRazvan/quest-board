@@ -33,21 +33,10 @@
                             <td>Tokens</td>
                             <td th:text="${user.tokens}"></td>
                         </tr>
-                    </table>
-                    <table class="table table-bordered table-hover">
-                        <thead class="table-dark">
-                        <h3 class="text-center">Roles</h3>
                         <tr>
-                            <th>#</th>
-                            <th>Role Name</th>
+                            <td>Role</td>
+                            <td th:text="${user.roles[0].name}"></td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each = "role, iStat : ${user.roles}">
-                            <td th:text = "${iStat.index + 1}"></td>
-                            <td th:text = "${role.name}"></td>
-                        </tr>
-                        </tbody>
                     </table>
                     <table class="table table-bordered table-hover">
                         <thead class="table-dark">

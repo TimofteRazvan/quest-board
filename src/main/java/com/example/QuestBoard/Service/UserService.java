@@ -77,29 +77,33 @@ public class UserService implements UserServiceInterface {
         user.setTokens(100);
 
         Role role = new Role();
-        if (user.getUsername().contains("admin1906")) {
-            role = roleRepository.findByName("ROLE_ADMIN");
+        String role_name;
+        if (userDTO.getEmail().contains("admin@gmail.com")) {
+            role_name = "ROLE_ADMIN";
+            role = roleRepository.findByName(role_name);
         }
         else {
-            role = roleRepository.findByName("ROLE_USER");
+            role_name = "ROLE_USER";
+            role = roleRepository.findByName(role_name);
         }
         if (role == null) {
-            role = checkRole();
+            role = checkRole(role_name);
         }
         user.setRoles(List.of(role));
 
         userRepository.save(user);
     }
 
+    /*
     public void bindQuest(Quest quest, User user) {
         List<Quest> quests = user.getUserQuests();
         quests.add(quest);
         user.setUserQuests(quests);
     }
+     */
 
-    private Role checkRole() {
-        Role role = new Role();
-        role.setName("ROLE_USER");
+    private Role checkRole(String role_name) {
+        Role role = new Role(role_name);
         return roleRepository.save(role);
     }
 

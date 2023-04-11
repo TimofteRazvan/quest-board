@@ -11,5 +11,4 @@ public class QuestBoardApplication {
 	}
 
 	// TODO: Badges
-	// TODO: Permissions, add admin role on specific conditions, can delete others' quests, users
 }

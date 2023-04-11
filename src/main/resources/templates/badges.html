@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Registration and Login System</title>
@@ -15,7 +15,7 @@
   <div class="row col-md-10">
     <h2>List of Badges</h2>
   </div>
-  <div class="row col-md-2 d-inline">
+  <div class="row col-md-2 d-inline" sec:authorize="hasRole('ROLE_ADMIN')">
     <a th:href="@{/badges/add-badge}">Add Badge</a>
   </div>
   <table class="table table-bordered table-hover">
@@ -24,7 +24,7 @@
       <th>Name</th>
       <th>Description</th>
       <th>Reward</th>
-      <th>Remove</th>
+      <th sec:authorize="hasRole('ROLE_ADMIN')">Remove</th>
     </tr>
     </thead>
     <tbody>
@@ -32,7 +32,7 @@
       <td th:text = "${badge.name}"></td>
       <td th:text = "${badge.description}"></td>
       <td th:text = "${badge.reward}"></td>
-      <td>
+      <td sec:authorize="hasRole('ROLE_ADMIN')">
         <a th:href="@{/badges/remove-badge/{id}(id=${badge.id})}" class="btn btn-danger">
           <i class="fas fa-user-times ml-2"></i>
         </a>

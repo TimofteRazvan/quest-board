@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,8 +16,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
+    //@Autowired
+    //private UserDetailsService userDetailsService;
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -27,14 +30,17 @@ public class SpringSecurity {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/register/**").permitAll()
+                        authorize.requestMatchers("/register/**", "/login/**").permitAll()
                                 .requestMatchers("/index").permitAll()
-                                .requestMatchers("/users/**").permitAll()
-                                .requestMatchers("/quests/**").permitAll()
-                                .requestMatchers("/solutions/**").permitAll()
-                                .requestMatchers("/leaderboard/**").permitAll()
+                                .requestMatchers("/users/**").hasRole("ADMIN")
+                                .requestMatchers("/quests/**").authenticated()
+                                .requestMatchers("/solutions").hasRole("ADMIN")
+                                .requestMatchers("/solutions/**").authenticated()
+                                .requestMatchers("/leaderboard/**").authenticated()
                                 .requestMatchers("/user/**").authenticated()
-                                .requestMatchers("/badges/**").permitAll()
+                                .requestMatchers("/badges").authenticated()
+                                .requestMatchers("/badges/add-badge/**").hasRole("ADMIN")
+                                .requestMatchers("/badges/save-badge/**").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
@@ -52,7 +58,7 @@ public class SpringSecurity {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
+                .userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 }
