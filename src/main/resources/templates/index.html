@@ -3,6 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <style>
+    .mask {
+      height: 600px;
+      width: 100%;
+      overflow: hidden;
+      background-repeat: no-repeat;
+      background-position: 20% 50%;
+      background: -webkit-linear-gradient(rgba(54, 36, 25, 0.8), rgba(241, 192, 92, 0.6));
+     }
+    body {
+        background-image :  url("https://inkarnate-api-as-production.s3.amazonaws.com/97aFPHAKk5joziR9R4mk6j");
+        height: 100%;
+        width: 100%;
+        background-position: cover;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        background-attachment: fixed;
+       }
+  </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -10,12 +29,46 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 </head>
 <body>
-<div th:insert="fragments/header :: header"></div>
-<br /><br />
-<div class="container">
-    <div class="row">
-        <h1 class="text-center"> Log in </h1>
+<header>
+    <div th:insert="fragments/header :: header"></div>
+    <div class="mask rgba-black-strong">
+        <div class="container-fluid d-flex align-items-center justify-content-center h-100">
+            <div class="row d-flex justify-content-center text-center">
+                <div class="col-md-10">
+                    <h2 class="display-4 font-weight-bold font-italic text-white pt-5 mb-2">"Helping one person might not change the world, but it could change the world for one person."</h2>
+                    <hr class="hr-light">
+                    <h4 class="text-white my-4">Quid Pro Quo</h4>
+                    <a class="btn btn-outline-white text-white" th:href="@{/login}">
+                        Log In <i class="fas fa-sign-in-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</header>
+<main class="mt-5">
+    <div class="container">
+        <section id="best-features" class="text-center">
+            <h2 class="mb-5 font-weight-bold text-light">Best Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-5">
+                    <i class="fas fa-bicycle fa-4x orange-text text-light"></i>
+                    <h4 class="my-4 font-weight-bold text-light">User Experience</h4>
+                    <p class="grey-text text-light">Simple, intuitive design</p>
+                </div>
+                <div class="col-md-4 mb-1">
+                    <i class="fas fa-gem fa-4x orange-text text-light"></i>
+                    <h4 class="my-4 font-weight-bold text-light">Quality</h4>
+                    <p class="grey-text text-light">Strictly moderated.</p>
+                </div>
+                <div class="col-md-4 mb-1">
+                    <i class="fas fa-dollar-sign fa-4x orange-text text-light"></i>
+                    <h4 class="my-4 font-weight-bold text-light">Free</h4>
+                    <p class="grey-text text-light">It's literally free.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
 </body>
 </html>

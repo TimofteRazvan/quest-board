@@ -2,7 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Home</title>
+  <title>Quest Details</title>
+  <style>
+        body {
+        background-image :  url("https://inkarnate-api-as-production.s3.amazonaws.com/97aFPHAKk5joziR9R4mk6j");
+        height: 100%;
+        width: 100%;
+        background-position: cover;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        background-attachment: fixed;
+        }
+    </style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -36,7 +47,7 @@
               <td th:text="${quest.author}"></td>
             </tr>
           </table>
-          <a th:href="@{/quests/add-solution/{id}(id=${quest.id})}">Add Solution</a>
+          <a th:href="@{/quests/add-solution/{id}(id=${quest.id})}" class="btn btn-primary">Add Solution</a>
         </div>
       </div>
     </div>

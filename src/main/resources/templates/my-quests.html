@@ -2,7 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registration and Login System</title>
+    <title>My Quests</title>
+    <style>
+        body {
+        background-image :  url("https://preview.redd.it/akfqd7mvcss51.jpg?auto=webp&s=366856bdf57a60aff9a139835a8f36c3ce60fff8");
+        height: 100%;
+        width: 100%;
+        background-position: cover;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        background-attachment: fixed;
+        }
+        table { background-color: white; }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -14,9 +26,6 @@
 <div class="container">
     <div class="row col-md-10 d-inline">
         <h2>My Published Quests</h2>
-    </div>
-    <div class="row col-md-2 d-inline">
-        <a th:href="@{/quests/add-quest}">Add Quest</a>
     </div>
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
@@ -44,6 +53,9 @@
         </tr>
         </tbody>
     </table>
+    <div class="row col-md-2 d-inline">
+        <a th:href="@{/quests/add-quest}" class="btn btn-primary">Add Quest</a>
+    </div>
 </div>
 </body>
 </html>
