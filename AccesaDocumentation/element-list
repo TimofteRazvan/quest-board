@@ -1,0 +1,7 @@
+com.example.QuestBoard
+com.example.QuestBoard.Controller
+com.example.QuestBoard.Entity
+com.example.QuestBoard.Repository
+com.example.QuestBoard.Security
+com.example.QuestBoard.Service
+com.example.QuestBoard.Test

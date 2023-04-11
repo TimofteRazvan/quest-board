@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.example.QuestBoard"},{"l":"com.example.QuestBoard.Controller"},{"l":"com.example.QuestBoard.Entity"},{"l":"com.example.QuestBoard.Repository"},{"l":"com.example.QuestBoard.Security"},{"l":"com.example.QuestBoard.Service"},{"l":"com.example.QuestBoard.Test"}];updateSearchResults();
