@@ -8,6 +8,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * The Role class represents the roles that a User can have, such as Admin and User, made to be used with Spring Security.
+ * Contains ID, NAME, LIST of Users in a Many-To-Many relationship.
+ */
 @Entity(name = "Role")
 @Table(name = "roles")
 @Getter

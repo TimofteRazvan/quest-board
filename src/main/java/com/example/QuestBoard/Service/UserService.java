@@ -25,10 +25,6 @@ public class UserService implements UserServiceInterface {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User findUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("No such user!"));
-    }
-
     @Override
     public List<UserDTO> findAllUsers() {
         List<User> users = userRepository.findAll();
@@ -37,6 +33,7 @@ public class UserService implements UserServiceInterface {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public List<UserDTO> findAllUsersByTokensAscending() {
         List<User> users = userRepository.findAll();
         return users.stream()
@@ -45,6 +42,7 @@ public class UserService implements UserServiceInterface {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public List<UserDTO> findAllUsersByTokensDescending() {
         List<User> users = userRepository.findAll();
         return users.stream()
@@ -53,6 +51,11 @@ public class UserService implements UserServiceInterface {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Maps a User entity object to a UserDTO, getting rid of unnecessary data for displaying.
+     * @param user the user which will be mapped to a DTO
+     * @return the DTO created from the User
+     */
     private UserDTO mapUserToUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
@@ -60,6 +63,11 @@ public class UserService implements UserServiceInterface {
         userDTO.setEmail(user.getEmail());
         userDTO.setTokens(user.getTokens());
         return userDTO;
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("No such user!"));
     }
 
     @Override
@@ -106,11 +114,21 @@ public class UserService implements UserServiceInterface {
         userRepository.save(user);
     }
 
+    /**
+     * Checks for the Role name given and saves the newly created Role with that name.
+     * @param role_name the name by which to check
+     * @return a newly created Role object with the given role name
+     */
     private Role checkRole(String role_name) {
         Role role = new Role(role_name);
         return roleRepository.save(role);
     }
 
+    /**
+     * Checks for the badge name given and saves the newly created badge with that name.
+     * @param badge_name the name by which to check
+     * @return a newly created Badge object with the given badge name
+     */
     private Badge checkBadge(String badge_name) {
         Badge badge = new Badge();
         badge.setName(badge_name);
@@ -159,14 +177,12 @@ public class UserService implements UserServiceInterface {
         userRepository.deleteById(user.getId());
     }
 
-    public List<Quest> findQuestsByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
-            return user.getUserQuests();
-        }
-        return null;
-    }
-
+    /**
+     * Gives tokens to a User entity. Checks if User is eligible for badges. Adds badge to user if so. Saves.
+     * @param user the user who will receive the tokens
+     * @param tokens the tokens to be given to the user
+     */
+    @Override
     public void giveReward(User user, int tokens) {
         user.setTokens(user.getTokens() + tokens);
         if (user.getTokens() >= 250) {
@@ -200,6 +216,12 @@ public class UserService implements UserServiceInterface {
         }
     }
 
+    /**
+     * Takes tokens from a User entity. Checks if User is now eligible for badges. Adds badge to user if so. Saves.
+     * @param username the username of the user who will lose the tokens
+     * @param tokens the tokens to be taken from the user
+     */
+    @Override
     public void takeReward(String username, int tokens) {
         User user = userRepository.findByUsername(username);
         if (user != null) {

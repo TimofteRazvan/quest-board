@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The User class represents those who will use the application. Users can have multiple roles, badges, quests and
+ * solutions. Also contains ID, USERNAME, EMAIL, TOKENS (Points), PASSWORD, LIST of Quests in a One-To-Many relationship,
+ * LIST of Solutions in a One-To-Many relationship, LIST of Roles in a Many-To-Many relationship, and LIST of Badges in
+ * Many-To-Many relationship.
+ */
 @Entity(name = "User")
 @Table(name = "users")
 @Getter

@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The UserDTO class represents a User class, but without the extra information that is useless for the sake of
+ * displaying and listing. Contains only ID, USERNAME, EMAIL, TOKENS, PASSWORD.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

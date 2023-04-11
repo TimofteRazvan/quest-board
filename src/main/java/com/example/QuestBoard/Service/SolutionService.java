@@ -25,10 +25,16 @@ public class SolutionService implements SolutionServiceInterface {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public Solution findSolutionById(Long id) {
         return solutionRepository.findById(id).orElseThrow(() -> new RuntimeException("No such solution!"));
     }
 
+    /**
+     * Maps a Solution to a SolutionDTO, getting rid of unnecessary data for displaying.
+     * @param solution the solution which will be mapped to a DTO
+     * @return the DTO created from the Solution object
+     */
     private SolutionDTO mapSolutionToSolutionDTO(Solution solution) {
         SolutionDTO solutionDTO = new SolutionDTO();
         solutionDTO.setId(solution.getId());
@@ -46,14 +52,12 @@ public class SolutionService implements SolutionServiceInterface {
         return solution;
     }
 
+    @Override
     public void removeSolutionById(Long id) {
         solutionRepository.deleteById(id);
     }
 
-    public void removeSolution(Solution solution) {
-        solutionRepository.delete(solution);
-    }
-
+    @Override
     public void removeSolutionsOfUser(Long id) {
         List<Solution> solutions = solutionRepository.findAll();
         for (Solution solution : solutions) {

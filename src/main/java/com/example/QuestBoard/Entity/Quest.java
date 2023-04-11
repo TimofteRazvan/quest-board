@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The Quest class represents quests that users can make, delete, view and give solutions to.
+ * They have an ID, TITLE, DESCRIPTION, REWARD, USER Object in a One-To-One relationship,
+ * LIST of Solutions in a One-To-Many relationship.
+ */
 @Entity(name = "Quest")
 @Table(name = "quests")
 @Getter

@@ -13,6 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * SpringSecurity class allows for replacing the default SpringSecurity options, such as the log-in page, registering
+ * functions, logging out, how the current session behaves and what links are accessible by the currently logged-in user.
+ */
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
@@ -26,6 +30,11 @@ public class SpringSecurity {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Changes permissions for who can access certain links and complete certain requests.
+     * @return the filter chain
+     * @throws Exception internal exception
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
@@ -39,6 +48,7 @@ public class SpringSecurity {
                                 .requestMatchers("/leaderboard/**").authenticated()
                                 .requestMatchers("/user/**").authenticated()
                                 .requestMatchers("/badges/**").hasRole("ADMIN")
+                                .requestMatchers("/").permitAll()
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
@@ -53,6 +63,11 @@ public class SpringSecurity {
         return httpSecurity.build();
     }
 
+    /**
+     * Globally configures the user details service that will be used (custom, here) and the password encoder.
+     * @param authenticationManagerBuilder automatically builds an authentication manager with the given arguments
+     * @throws Exception internal exception
+     */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder

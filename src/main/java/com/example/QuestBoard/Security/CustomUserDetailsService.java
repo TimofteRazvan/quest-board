@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * Custom UserDetailsService implements and overrides the UserDetailsService methods so that they may be used instead.
+ * Allows for changing how SpringSecurity deals with the currently logged-in user.
+ */
 @Service
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
@@ -34,6 +38,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
     }
 
+    /**
+     * Gives simple authorities for every role (ADMIN, USER).
+     * @param roles the roles that the user has
+     * @return the mapped roles
+     */
     private Collection<? extends GrantedAuthority> mapAuthorities(Collection<Role> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))

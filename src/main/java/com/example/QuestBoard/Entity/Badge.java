@@ -9,6 +9,10 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The Badge class represents badges that users can earn. They have an ID, NAME, DESCRIPTION, REWARD, LIST of users in
+ * a Many-To-Many relationship.
+ */
 @Entity(name = "Badge")
 @Table(name = "badges")
 @Getter
@@ -34,10 +38,18 @@ public class Badge {
         this.reward = reward;
     }
 
+    /**
+     * Adds a User to the List of users mapped to the badge
+     * @param user the user to be added
+     */
     public void addUser(User user) {
         users.add(user);
     }
 
+    /**
+     * Removes a User from the List of users mapped to the badge
+     * @param user the user to be removed
+     */
     public void removeUser(User user) {
         users.remove(user);
     }

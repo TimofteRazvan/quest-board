@@ -10,6 +10,11 @@ import java.util.Objects;
 
 import static org.hibernate.Length.LOB_DEFAULT;
 
+/**
+ * The Solution class represents a solution that can be written for a Quest by a User. Multiple Users can write solutions
+ * for multiple Quests. Contains ID, User (who writes the solution), Quest (for which the solution is written),
+ * ENTRY (text that represents the written solution itself).
+ */
 @Entity(name = "Solution")
 @Table(name = "solutions")
 @Getter

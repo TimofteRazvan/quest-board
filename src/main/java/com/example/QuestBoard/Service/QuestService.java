@@ -16,6 +16,7 @@ public class QuestService implements QuestServiceInterface {
     @Autowired
     QuestRepository questRepository;
 
+    @Override
     public QuestDTO findQuestDTOById(Long id) {
         Quest quest = questRepository.findById(id).orElseThrow(() -> new RuntimeException("Quest not found!"));
         String username = null;
@@ -25,10 +26,12 @@ public class QuestService implements QuestServiceInterface {
         return new QuestDTO(quest.getId(), quest.getTitle(), quest.getDescription(), quest.getReward(), username);
     }
 
+    @Override
     public Quest findQuestById(Long id) {
         return questRepository.findById(id).orElseThrow(() -> new RuntimeException("Quest not found!"));
     }
 
+    @Override
     public Quest getQuestReference(Long id) {
         return questRepository.getById(id);
     }
@@ -41,6 +44,11 @@ public class QuestService implements QuestServiceInterface {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Maps a Quest to a QuestDTO, getting rid of unnecessary data for displaying.
+     * @param quest the quest which will be mapped to a DTO
+     * @return the DTO created from the Quest object
+     */
     private QuestDTO mapQuestToQuestDTO(Quest quest) {
         QuestDTO questDTO = new QuestDTO();
         questDTO.setId(quest.getId());
@@ -64,11 +72,13 @@ public class QuestService implements QuestServiceInterface {
         return quest;
     }
 
+    @Override
     public void removeQuestById(Long id) {
         Quest quest = questRepository.findById(id).orElseThrow(() -> new RuntimeException("Quest not found!"));
         questRepository.deleteById(quest.getId());
     }
 
+    @Override
     public void removeQuestsOfUser(Long id) {
         List<Quest> quests = questRepository.findAll();
         for (Quest quest : quests) {

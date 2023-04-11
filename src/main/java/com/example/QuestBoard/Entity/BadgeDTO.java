@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The BadgeDTO class represents a Badge class, but without the extra information that is useless for the sake of
+ * displaying and listing. Contains only ID, NAME, DESCRIPTION, REWARD.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

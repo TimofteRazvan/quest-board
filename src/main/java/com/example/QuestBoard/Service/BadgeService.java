@@ -22,6 +22,11 @@ public class BadgeService implements BadgeServiceInterface {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Maps a Badge to a BadgeDTO, getting rid of unnecessary data for displaying.
+     * @param badge the badge which will be mapped to a DTO
+     * @return the DTO created from the Badge object
+     */
     public BadgeDTO mapBadgeToBadgeDTO(Badge badge) {
         BadgeDTO badgeDTO = new BadgeDTO();
         badgeDTO.setId(badge.getId());
@@ -40,7 +45,8 @@ public class BadgeService implements BadgeServiceInterface {
         badgeRepository.save(badge);
     }
 
-    public void removeBadge(Long id) {
+    @Override
+    public void removeBadgeById(Long id) {
         Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("No such badge!"));
         badgeRepository.deleteById(badge.getId());
     }

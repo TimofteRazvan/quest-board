@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * CustomUserDetails implements the UserDetails interface so that it takes precedence and that its methods can be
+ * replaced by my own.
+ */
 public class CustomUserDetails implements UserDetails {
     private User user;
 
@@ -18,6 +22,10 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
+    /**
+     * Adds to list of authorities every role, for which we grant simple authorities.
+     * @return the list of authorities
+     */
     @Override
     @Transactional
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -41,6 +49,10 @@ public class CustomUserDetails implements UserDetails {
         return user.getUsername();
     }
 
+    /**
+     * Gets the user's tokens.
+     * @return the user's tokens
+     */
     public int getTokens() {
         return user.getTokens();
     }
